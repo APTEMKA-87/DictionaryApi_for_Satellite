@@ -1,47 +1,52 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 const instance = axios.create({
-    withCredentials: true,  // что это и надо ли?
     baseURL: `https://api.dictionaryapi.dev/api/v2/entries/en/`,
 })
 
 export const dictionaryAPI = {
-    getWord(searchWord: string[]) {
-        return instance.get<ResponseType>(`${searchWord}`)
-            .then(response => {
-                    return response.data
-                }
-            )
+    getWord(searchWord: string) {
+        return instance.get<wordType[], AxiosResponse<wordType[]>>(`${searchWord}`)
     },
 }
 
 
+// ToDo типизация объекта с апи руками или типизировать тайпофом?
+
+type licenseType = {
+    name: string
+    url: string
+}
+
 type phoneticsType = {
-    text: string,
+    text: string
     audio?: string
+    sourceUrl: string
+    license: licenseType
 }
 
 type definitionsType = {
-    'definition': string,
-    'example': string,
-    'synonyms': string[],
+    'definition': string
+    'example': string
+    'synonyms': string[]
     'antonyms': string[]
 }
 
 type meaningsType = {
-    'partOfSpeech': string,
+    'partOfSpeech': string
     'definitions': definitionsType[]
 }
 
-type wordType = {
-    'word': string,
-    'phonetic': string,
-    'phonetics': phoneticsType[],
-    'origin': string,
-    'meanings': meaningsType[]
+export type wordType = {
+    id: number  // в uniqueItems добавил id и тут пришлось, почему?
+    word: string
+    phonetic: string
+    phonetics: phoneticsType[]
+    origin: string
+    meanings: meaningsType[]
 }
 
-
+// ToDo с апи приходит вот такой объект
 /*[
     {
         "word": "hello",
@@ -93,6 +98,7 @@ type wordType = {
         ]
     }
 ]*/
+
 
 
 

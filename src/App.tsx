@@ -1,38 +1,23 @@
 import React from 'react';
-import My_input from './components/my_input';
+import {Route, Routes} from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ResultPage from './pages/ResultPage';
+import NotFoundPage from './pages/NotFoundPage';
+import Layout from './components/Layout';
 
-/*const App = () => {
-
-    const [words, setWord] = useState([])
-
-    useEffect(()=>{
-        dictionaryAPI.getWord().then((response)=>{
-            setWord(response.data)
-        })
-    },[])
-
-    return <div>
-
-    </div>
-
-};
-
-const word  = (props:any) => {
-    {props.word.word}
-}*/
 
 function App() {
-    return (
-        <My_input/>
-    )
+    return <>
+        <Routes>
+            <Route path="/" element={<Layout/>}>
+                <Route index element={<HomePage/>}/>
+                <Route path="result" element={<ResultPage/>}/>
+                <Route path="*" element={<NotFoundPage/>}/>
+            </Route>
+        </Routes>
+    </>
 }
 
-/*const App = () => {
-
-    return (
-       <My_input/>
-    )
-}*/
 
 export default App;
 
